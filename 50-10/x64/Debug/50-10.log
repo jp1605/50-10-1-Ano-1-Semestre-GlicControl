@@ -1,0 +1,6 @@
+﻿  Inicio.c
+C:\Users\João\source\repos\50-10\50-10\Inicio.c(15,57): warning C4474: 'printf': excesso de argumentos transmitidos para cadeia de caracteres de formato
+C:\Users\João\source\repos\50-10\50-10\Inicio.c(15,57): message : espaços reservados e seus parâmetros esperam 0 argumentos variadic, mas 1 foram fornecidos
+C:\Users\João\source\repos\50-10\50-10\Inicio.c(23,13): warning C4013: 'correr' indefinido; assumindo extern retornando int
+C:\Users\João\source\repos\50-10\50-10\Inicio.c(26,13): warning C4013: 'lagrange' indefinido; assumindo extern retornando int
+  50-10.vcxproj -> C:\Users\João\source\repos\50-10\x64\Debug\50-10.exe
