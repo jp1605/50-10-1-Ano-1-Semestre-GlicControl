@@ -1,25 +1,28 @@
 #define _CRT_SECURE_NO_WARNINGS
-#include <conio.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+// Prototipos (as funcoes sao definidas depois do main)
+int correr(void);
+int lagrange(void);
 
 
-// FunÁ„o principal
+
+// Fun√ß√£o principal
 int main() {
     int opcao;
     do {
         // Exibe o menu
         printf("\n\033[1;36m                                                          BEM VINDO AO GlicControl\033[0m\n\n");
-        printf("1. Visualizar estatisticas da glicemia",237);
+        printf("1. Visualizar estatisticas da glicemia");
         printf("                    2. Prever dados futuros");
         printf("                                3. Sair\n");
         printf("    \nEscolha uma opcao: ");
         scanf("%d", &opcao);
 
         switch (opcao) {
-        case 1: // Visualizar estatÌsticas da glicemia
+        case 1: // Visualizar estat√≠sticas da glicemia
             correr();
             break;
         case 2: // Prever dados futuros
@@ -37,7 +40,7 @@ int main() {
 
 }
 
-// FunÁ„o para encontrar o valor m·ximo (pico) em uma matriz
+// Fun√ß√£o para encontrar o valor m√°ximo (pico) em uma matriz
 int encontrarPico(int matriz[][3], int linhas, int colunas) {
     int maximo = matriz[0][0]; // Inicializa com o primeiro elemento
 
@@ -52,7 +55,7 @@ int encontrarPico(int matriz[][3], int linhas, int colunas) {
     return maximo;
 }
 
-// FunÁ„o para calcular a mÈdia da glicemia em um determinado perÌodo do dia
+// Fun√ß√£o para calcular a m√©dia da glicemia em um determinado per√≠odo do dia
 double calcularMedia(int matriz[][3], int linhas, int periodo) {
     double soma = 0.0;
 
@@ -63,7 +66,7 @@ double calcularMedia(int matriz[][3], int linhas, int periodo) {
     return soma / linhas;
 }
 
-// FunÁ„o para preencher a matriz com os dados do usu·rio
+// Fun√ß√£o para preencher a matriz com os dados do usu√°rio
 void preencherMatriz(int matriz[][3], int linhas) {
     for (int i = 0; i < linhas; ++i) {
         printf("Insira a glicemia as 8h do dia %d: ", i + 1);
@@ -85,15 +88,15 @@ void preencherMatrizArquivo(int matriz[][3], int linhas) {
         exit(EXIT_FAILURE);
     }
 
-    // Verifica se o arquivo est· vazio
+    // Verifica se o arquivo est√° vazio
     fseek(arquivo, 0, SEEK_END);
     long tamanhoArquivo = ftell(arquivo);
 
     if (tamanhoArquivo == 0) {
-        printf("O arquivo est· vazio. Por favor, adicione os dados:\n");
+        printf("O arquivo est√° vazio. Por favor, adicione os dados:\n");
         fclose(arquivo);
 
-        // Chama a funÁ„o para preencher a matriz com os valores do usu·rio
+        // Chama a fun√ß√£o para preencher a matriz com os valores do usu√°rio
         preencherMatriz(matriz, linhas);
 
         // Abre o arquivo para escrita
@@ -111,10 +114,10 @@ void preencherMatrizArquivo(int matriz[][3], int linhas) {
         fclose(arquivo);
     }
     else {
-        // O arquivo n„o est· vazio, lÍ os dados do arquivo
+        // O arquivo n√£o est√° vazio, l√™ os dados do arquivo
         fseek(arquivo, 0, SEEK_SET);
 
-        // AlteraÁ„o: LÍ os dados atÈ o final do arquivo
+        // Altera√ß√£o: L√™ os dados at√© o final do arquivo
         for (int i = 0; i < linhas && !feof(arquivo); ++i) {
             if (fscanf(arquivo, "%d %d %d", &matriz[i][0], &matriz[i][1], &matriz[i][2]) != 3) {
                 fprintf(stderr, "\nErro ao ler os dados do arquivo\n");
@@ -140,7 +143,7 @@ void imprimirTabela(int matriz[][3], int linhas) {
         // Imprime a coluna "Dia" em ciano e o restante em branco
         printf("%s| %-4d%s | %-16d | %-17d | %-20d|%s\n", cianoClaro, i + 1, resetCor, matriz[i][0], matriz[i][1], matriz[i][2], resetCor);
 
-        // Adiciona linhas horizontais apÛs cada linha de dados, exceto na ˙ltima linha
+        // Adiciona linhas horizontais ap√≥s cada linha de dados, exceto na √∫ltima linha
         if (i < linhas - 1) {
             printf("+------+------------------+-------------------+---------------------+\n");
         }
@@ -149,7 +152,7 @@ void imprimirTabela(int matriz[][3], int linhas) {
     printf("+------+------------------+-------------------+---------------------+%s\n", resetCor);
 }
 
-// FunÁ„o para exibir mensagens de sa˙de com base no valor m·ximo
+// Fun√ß√£o para exibir mensagens de sa√∫de com base no valor m√°ximo
 void exibirMensagemSaude(int pico) {
     if (pico < 70) {
         printf("\x1b[1;31m\n!ALERTA!: Valor muito baixo. Consulte um medico.\x1b[0m\n");
@@ -164,9 +167,9 @@ void exibirMensagemSaude(int pico) {
     printf("\n----------------------------------------------------\n");
 }
 
-// FunÁ„o principal
+// Fun√ß√£o principal
 int correr() {
-    // Pergunta ao usu·rio quantos dias deseja registrar
+    // Pergunta ao usu√°rio quantos dias deseja registrar
     int numDias;
     printf("Quantos dias deseja ler ? -> ");
     scanf("\n%d", &numDias);
@@ -193,10 +196,10 @@ int correr() {
     printf("\x1b[1;33mValor maximo encontrado nos dados diarios: %d mg/dl\x1b[0m\n", pico);
   
 
-    // Exibe mensagens de sa˙de com base no valor m·ximo
+    // Exibe mensagens de sa√∫de com base no valor m√°ximo
     exibirMensagemSaude(pico);
 
-    // Calcula e exibe mÈdias de glicemia
+    // Calcula e exibe m√©dias de glicemia
     double mediaManha = calcularMedia(dados, numDias, 0);
     double mediaTarde = calcularMedia(dados, numDias, 1);
     double mediaNoite = calcularMedia(dados, numDias, 2);
@@ -208,7 +211,7 @@ int correr() {
     printf("Media da glicemia a noite: %.2lf mg/dl\n", mediaNoite);
     printf("----------------------------------------\n");
 
-    // Libera a memÛria alocada para a matriz
+    // Libera a mem√≥ria alocada para a matriz
     free(dados);
 
     return 0;
@@ -256,34 +259,34 @@ double lagrange_interpolation_value(double x_values[], double y_values[], int n,
 int lagrange() {
     int n;
 
-    // Solicita ao usu·rio o n˙mero de pontos de dados
+    // Solicita ao usu√°rio o n√∫mero de pontos de dados
     printf("\nDigite o numero de dias de dados: ");
-    scanf_s("%d", &n);
+    scanf("%d", &n);
 
-    // Aloca espaÁo para a matriz de pontos de dados
+    // Aloca espa√ßo para a matriz de pontos de dados
     double(*points)[2] = malloc(n * sizeof(*points));
 
-    // Verifica se a alocaÁ„o foi bem-sucedida
+    // Verifica se a aloca√ß√£o foi bem-sucedida
     if (points == NULL) {
-        fprintf(stderr, "\033[1;31mErro na alocaÁ„o de memÛria.\033[0m\n");
-        return 1;  // CÛdigo de erro
+        fprintf(stderr, "\033[1;31mErro na aloca√ß√£o de mem√≥ria.\033[0m\n");
+        return 1;  // C√≥digo de erro
     }
 
-    // Solicita ao usu·rio os pontos de dados
+    // Solicita ao usu√°rio os pontos de dados
     printf("Digite os pontos de dados (formato: x y):\n");
     for (int i = 0; i < n; i++) {
         printf("Ponto %d: ", i + 1);
-        scanf_s("%lf %lf", &points[i][0], &points[i][1]);
+        scanf("%lf %lf", &points[i][0], &points[i][1]);
     }
 
-    // Aloca espaÁo para os arrays de x e y
+    // Aloca espa√ßo para os arrays de x e y
     double* x_values = (double*)malloc(n * sizeof(double));
     double* y_values = (double*)malloc(n * sizeof(double));
 
-    // Verifica se a alocaÁ„o foi bem-sucedida
+    // Verifica se a aloca√ß√£o foi bem-sucedida
     if (x_values == NULL || y_values == NULL) {
-        fprintf(stderr, "Erro na alocaÁ„o de memÛria.\n");
-        return 1;  // CÛdigo de erro
+        fprintf(stderr, "Erro na aloca√ß√£o de mem√≥ria.\n");
+        return 1;  // C√≥digo de erro
     }
 
     // Transfere os pontos da matriz para os arrays
@@ -292,21 +295,21 @@ int lagrange() {
         y_values[i] = points[i][1];
     }
 
-    // Ponto para interpolaÁ„o
+    // Ponto para interpola√ß√£o
     double x_to_interpolate;
     printf("Digite o valor de x para interpolacao: ");
-    scanf_s("%lf", &x_to_interpolate);
+    scanf("%lf", &x_to_interpolate);
 
-    // Exibe o polinÙmio interpolador
+    // Exibe o polin√¥mio interpolador
     lagrange_interpolation(x_values, y_values, n);
 
     // Calcula o valor interpolado
     double result = lagrange_interpolation_value(x_values, y_values, n, x_to_interpolate);
 
     // Exibe o resultado
-    printf("O valor interpolado para x=%.2f %c %.2f\n", x_to_interpolate,130, result);
+    printf("O valor interpolado para x=%.2f e %.2f\n", x_to_interpolate, result);
 
-    // Libera a memÛria alocada
+    // Libera a mem√≥ria alocada
     free(points);
     free(x_values);
     free(y_values);
